@@ -1,0 +1,18 @@
+#!/bin/sh
+# npm helper for machines using JonUI's bundled Node instead of a system Node.
+set -eu
+COSMURGY_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+JONUI_ROOT=${JONUI_ROOT:-"$COSMURGY_ROOT/../JonUI"}
+cd "$COSMURGY_ROOT"
+if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
+  exec npm "$@"
+fi
+for cosmurgy_node in "$JONUI_ROOT"/.build/node/node-*/out/Release/node; do
+  if [ -x "$cosmurgy_node" ]; then
+    cosmurgy_node_root=$(CDPATH= cd -- "$(dirname -- "$cosmurgy_node")/../.." && pwd)
+    export PATH="$(dirname -- "$cosmurgy_node"):$PATH"
+    exec "$cosmurgy_node" "$cosmurgy_node_root/deps/npm/bin/npm-cli.js" "$@"
+  fi
+done
+echo "Install Node 24+, or build JonUI first so its bundled Node is available." >&2
+exit 1

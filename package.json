@@ -1,0 +1,25 @@
+{
+  "name": "cosmurgy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A native, self-modifying agent environment",
+  "scripts": {
+    "start": "./bin/cosmurgy",
+    "check": "tsc --noEmit",
+    "test": "node --test tests/*.test.ts",
+    "test:native": "python3 scripts/test-native.py",
+    "build:app": "python3 scripts/build-app.py"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.0",
+    "jose": "^6.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "@types/node": "^24.0.0"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

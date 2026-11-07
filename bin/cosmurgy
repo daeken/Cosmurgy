@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+COSMURGY_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+JONUI_ROOT=${JONUI_ROOT:-"$COSMURGY_ROOT/../JonUI"}
+export COSMURGY_ROOT JONUI_ROOT
+if [ ! -x "$JONUI_ROOT/bin/jonui" ]; then
+  echo "JonUI wasn't found. Set JONUI_ROOT to its checkout." >&2
+  exit 1
+fi
+cd "$COSMURGY_ROOT"
+exec "$JONUI_ROOT/bin/jonui" "$COSMURGY_ROOT/src/app.ts" "$@"
